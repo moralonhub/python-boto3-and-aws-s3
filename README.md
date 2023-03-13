@@ -13,7 +13,7 @@ Before running the code, make sure you have the following installed:
 
 1. Clone the repository:
 
-    git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+    git clone https://github.com/moralonhub/python-boto3-and-aws-s3
 
 2. Navigate to the project directory:
 
