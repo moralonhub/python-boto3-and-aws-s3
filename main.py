@@ -1,8 +1,23 @@
 import boto3
 import uuid
-
+import re
 from botocore.exceptions import ClientError
 
+
+
+
+
+def validate_s3_bucket(bucket_name):
+    # Regular expression pattern for S3 bucket names
+    pattern = r'^[a-z0-9][a-z0-9\-]{1,61}[a-z0-9]$'
+
+    if len(bucket_name) < 3 or len(bucket_name) > 63:
+        raise ValueError("Bucket name should be between 3 and 63 characters long")
+
+    if not re.match(pattern, bucket_name):
+        raise ValueError("Bucket name is not valid. It should contain only lowercase alphanumeric characters and hyphens (-), and should not start or end with a hyphen.")
+
+    return bucket_name
 
 def create_bucket_name(bucket_prefix):
     '''
@@ -10,7 +25,8 @@ def create_bucket_name(bucket_prefix):
     :return bucket name String:
     '''
     # The generated bucket name must be between 3 and 63 chars long
-    return ''.join([bucket_prefix, str(uuid.uuid4())])
+    bucket_name = ''.join([bucket_prefix, str(uuid.uuid4())])
+    return validate_s3_bucket(bucket_name)
 
 
 def create_bucket(bucket_prefix, s3_connection):
